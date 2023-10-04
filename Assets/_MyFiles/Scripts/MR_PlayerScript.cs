@@ -10,16 +10,22 @@ public class MR_PlayerScript : MonoBehaviour
     CharacterController characterController;
 
     [Header("Player Speed")]
-    private float speed = 0f;
+    public float speed = 0f;
     public float walkSpeed = 10f;
     public float runSpeed = 20f;
+    public float crouchSpeed = 5f;
     Vector3 playerVelocity;
 
     [Header("Camera")]
     public Camera playerCAM;
 
-    private float gravity = -15f;
-    private float jumpHeight = 3f;
+    public bool isRunning;
+    public bool isCrouching;
+    private float standingHeight = 2;
+    private float crouchingHeight = 0;
+
+    private float gravity = -9.8f;
+    private float jumpHeight = 1f;
     private float xRotation = 0f;
     private float xSensitivity = 30f;
     private float ySensitivity = 30f;
@@ -31,15 +37,27 @@ public class MR_PlayerScript : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         speed = walkSpeed;
 
-        playerControls.Player.Look.performed += UpdateLookInput;
         playerControls.Player.Jump.performed += Jump;
         playerControls.Player.Sprint.performed += SprintPace;
         playerControls.Player.Sprint.canceled += WalkPace;
+        playerControls.Player.Crouch.performed += CrouchSize;
+        playerControls.Player.Crouch.canceled += NormalSize;
     }
 
     private void Update()
     {
         ProcessMovement();
+        ProcessCrouch();
+
+        if(isRunning == false && isCrouching == false)
+        {
+            speed = walkSpeed;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        ProcessLook();
     }
 
     private void ProcessMovement()
@@ -58,19 +76,11 @@ public class MR_PlayerScript : MonoBehaviour
         characterController.Move(playerVelocity * Time.deltaTime);
     }
 
-    private void UpdateLookInput(InputAction.CallbackContext context)
+    private void ProcessLook()
     {
-        ProcessLook(context.ReadValue<Vector2>());
-    }
-
-    private void ProcessLook(Vector2 lookVector)
-    {
+        Vector2 lookVector = playerControls.Player.Look.ReadValue<Vector2>();
         xRotation -= (lookVector.y * Time.deltaTime) * ySensitivity;
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);
-        if (playerCAM != null)
-        {
-            return;
-        }
         playerCAM.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
         transform.Rotate(Vector3.up * (lookVector.x * Time.deltaTime) * xSensitivity);
     }
@@ -85,11 +95,43 @@ public class MR_PlayerScript : MonoBehaviour
 
     private void SprintPace(InputAction.CallbackContext context)
     {
+        isRunning = true;
         speed = runSpeed;
     }
 
     private void WalkPace(InputAction.CallbackContext context)
     {
+        isRunning = false;
         speed = walkSpeed;
     }
+    private void CrouchSize(InputAction.CallbackContext context)
+    {
+        isCrouching = true;
+    }
+
+    private void NormalSize(InputAction.CallbackContext context)
+    {
+        isCrouching = false;
+    }
+
+    private void ProcessCrouch()
+    {
+        float heightChange;
+
+        if(isCrouching == true)
+        {
+            heightChange = crouchingHeight;
+            speed = crouchSpeed;
+        }
+        else
+        {
+            heightChange = standingHeight;
+        }
+
+        if(characterController.height != heightChange)
+        {
+            characterController.height = Mathf.Lerp(characterController.height, heightChange, crouchSpeed);
+        }
+    }
+
 }
