@@ -180,9 +180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a2705e7983013448bfcc3ecfe8ee0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
   walkSpeed: 10
   runSpeed: 20
+  crouchSpeed: 5
   playerCAM: {fileID: 8397266723061978421}
+  isRunning: 0
+  isCrouching: 0
 --- !u!1 &8600823040897356382
 GameObject:
   m_ObjectHideFlags: 0
