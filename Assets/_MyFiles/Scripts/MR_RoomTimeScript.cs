@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class MR_RoomTimeScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    MR_TimerCountDownScript timerCountdown;
+    public GameObject barrier;
+    public int secRestart;
+    public int minRestart;
+
+    private void Start()
     {
-        
+        timerCountdown = GetComponent<MR_TimerCountDownScript>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
