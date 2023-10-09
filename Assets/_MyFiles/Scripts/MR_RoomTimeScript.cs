@@ -5,13 +5,28 @@ using UnityEngine;
 public class MR_RoomTimeScript : MonoBehaviour
 {
     MR_TimerCountDownScript timerCountdown;
-    public GameObject barrier;
-    public int secRestart;
-    public int minRestart;
 
     private void Start()
     {
-        timerCountdown = GetComponent<MR_TimerCountDownScript>();
+
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            Debug.Log("I enter room");
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("I exit room");
+        }
+    }
+
 
 }

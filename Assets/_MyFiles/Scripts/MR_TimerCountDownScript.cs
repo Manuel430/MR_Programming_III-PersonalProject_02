@@ -3,59 +3,97 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Runtime.CompilerServices;
 
 public class MR_TimerCountDownScript : MonoBehaviour
 {
-    public TextMeshProUGUI timerDisplay;
+    [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] float maxTime;
+    [SerializeField] float remainingTime;
+    [SerializeField] bool beginCountdown;
 
-    public int seconds = 30;
-    public int minutes = 1;
-    public bool takeSecond = false;
-
-    private void Awake()
+    private void Update()
     {
-        while (seconds >= 60)
-        {
-            seconds -= 60;
-            minutes += 1;
-        }
-    }
+        int minutes = Mathf.FloorToInt(remainingTime / 60);
+        int seconds = Mathf.FloorToInt(remainingTime % 60);
 
-    private void Start()
-    {
-        if (seconds < 10)
+        if (beginCountdown)
         {
-            timerDisplay.text = minutes.ToString() + ":0" + seconds.ToString();
+            if (remainingTime > 1)
+            {
+                remainingTime -= Time.deltaTime;
+                timerText.color = Color.white;
+            }
+            else if (remainingTime < 1)
+            {
+                remainingTime = 0;
+                //EnemySpawn
+                timerText.color = Color.red;
+            }
         }
         else
         {
-            timerDisplay.text = minutes.ToString() + ":" + seconds.ToString();
+            remainingTime = maxTime;
         }
+
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    IEnumerator TimerTake()
+    public void BoolSwitch(bool CountDown)
     {
-        takeSecond = true;
-
-        yield return new WaitForSeconds(1);
-        seconds -= 1;
-
-        if (seconds == 0 && minutes > 0)
-        {
-            seconds = 60;
-            minutes -= 1;
-        }
-
-        if (seconds < 10)
-        {
-            timerDisplay.text = minutes.ToString() + ":0" + seconds.ToString();
-        }
-        else
-        {
-            timerDisplay.text = minutes.ToString() + ":" + seconds.ToString();
-        }
-
-        takeSecond = false;
+        Debug.Log("This works?");
     }
+
+    /*    public TextMeshProUGUI timerDisplay;
+
+        public int seconds = 30;
+        public int minutes = 1;
+        public bool takeSecond = false;
+
+        private void Awake()
+        {
+            while (seconds >= 60)
+            {
+                seconds -= 60;
+                minutes += 1;
+            }
+        }
+
+        private void Start()
+        {
+            if (seconds < 10)
+            {
+                timerDisplay.text = minutes.ToString() + ":0" + seconds.ToString();
+            }
+            else
+            {
+                timerDisplay.text = minutes.ToString() + ":" + seconds.ToString();
+            }
+        }
+
+        IEnumerator TimerTake()
+        {
+            takeSecond = true;
+
+            yield return new WaitForSeconds(1);
+            seconds -= 1;
+
+            if (seconds == 0 && minutes > 0)
+            {
+                seconds = 60;
+                minutes -= 1;
+            }
+
+            if (seconds < 10)
+            {
+                timerDisplay.text = minutes.ToString() + ":0" + seconds.ToString();
+            }
+            else
+            {
+                timerDisplay.text = minutes.ToString() + ":" + seconds.ToString();
+            }
+
+            takeSecond = false;
+        }*/
 
 }
