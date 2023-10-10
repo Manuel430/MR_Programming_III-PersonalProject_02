@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class MR_RoomTimeScript : MonoBehaviour
 {
-    MR_TimerCountDownScript timerCountdown;
+    [SerializeField] MR_TimerCountDownScript timerCountdown;
 
-    private void Start()
+/*    private void Awake()
     {
-
-    }
+        if(timerCountdown == null)
+        {
+            timerCountdown = th
+        }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,6 +20,7 @@ public class MR_RoomTimeScript : MonoBehaviour
         {
             Debug.Log("I enter room");
 
+            timerCountdown.BoolSwitch(true);
         }
     }
 
@@ -25,6 +29,8 @@ public class MR_RoomTimeScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("I exit room");
+
+            timerCountdown.BoolSwitch(false);
         }
     }
 

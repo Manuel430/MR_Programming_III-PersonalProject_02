@@ -41,7 +41,12 @@ public class MR_TimerCountDownScript : MonoBehaviour
 
     public void BoolSwitch(bool CountDown)
     {
-        Debug.Log("This works?");
+        beginCountdown = CountDown;
+    }
+
+    public void MaxTimeChange(float maxTimeChange)
+    {
+        maxTime -= maxTimeChange;
     }
 
     /*    public TextMeshProUGUI timerDisplay;
