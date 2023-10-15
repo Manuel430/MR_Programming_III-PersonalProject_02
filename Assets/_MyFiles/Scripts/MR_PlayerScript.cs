@@ -53,6 +53,7 @@ public class MR_PlayerScript : MonoBehaviour
         {
             speed = walkSpeed;
         }
+
     }
 
     private void LateUpdate()
