@@ -6,14 +6,6 @@ public class MR_RoomTimeScript : MonoBehaviour
 {
     [SerializeField] MR_TimerCountDownScript timerCountdown;
 
-/*    private void Awake()
-    {
-        if(timerCountdown == null)
-        {
-            timerCountdown = th
-        }
-    }*/
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
