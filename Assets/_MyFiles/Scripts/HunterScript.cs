@@ -66,10 +66,12 @@ public class HunterScript : MonoBehaviour
         if (!m_IsPatrol)
         {
             Chasing();
+            Debug.Log("Chasing");
         }
         else
         {
-            Hunting();
+            Debug.Log("Huntingss");
+            //Hunting();
         }
     }
 
@@ -124,6 +126,7 @@ public class HunterScript : MonoBehaviour
         {
             m_PlayerNear = false;
             playerLastPosition = Vector3.zero;
+            HuntingPoint(transform.position, range, out point);
             hunter.SetDestination(point);
 
             if (hunter.remainingDistance <= hunter.stoppingDistance)

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1130152765447276515}
   - component: {fileID: 2730730673956162477}
   - component: {fileID: 6674711358101822112}
-  - component: {fileID: 7942453978676016220}
+  - component: {fileID: 4869347327672536233}
   m_Layer: 0
   m_Name: Hunter
   m_TagString: Untagged
@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4385975616013879666}
+  - {fileID: 963402609906613781}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2730730673956162477
@@ -80,7 +81,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7942453978676016220
+--- !u!114 &4869347327672536233
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,34 +90,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 7280792081556275786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60f3701964600f141ac48f0c8b0f185f, type: 3}
+  m_Script: {fileID: 11500000, guid: 95913781997792a46b9b8cff504cfd37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerMask:
     serializedVersion: 2
     m_Bits: 64
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 128
-  hunterAnim: {fileID: 0}
-  player: {fileID: 3989500264563157943, guid: bb712fe22b606184dbebc1182d9a0fe9, type: 3}
-  centrePoint: {fileID: 1130152765447276515}
-  range: 15
-  startWaitTime: 4
-  timeToRotate: 2
-  huntSpeed: 5
+  _Player: {fileID: 3989500264563157943, guid: bb712fe22b606184dbebc1182d9a0fe9, type: 3}
+  centerPoint: {fileID: 4385975616013879666}
+  range: 10
+  patrolSpeed: 5
   chaseSpeed: 15
   viewRadius: 15
   viewAngle: 90
-  meshResolution: 1
-  edgeDistance: 0.5
-  m_WaitTime: 0
-  m_TimeToRotate: 0
-  edgeIterations: 4
-  m_PlayerInRange: 0
-  m_PlayerNear: 0
-  m_IsPatrol: 0
-  m_CaughtPlayer: 0
+  playerInRange: 0
+  playerNear: 0
+  onPatrol: 0
+  playerCloseUp: 0
+--- !u!1 &8100172770813820479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 963402609906613781}
+  m_Layer: 0
+  m_Name: CenterPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &963402609906613781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8100172770813820479}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1130152765447276515}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4385975616014275570
 PrefabInstance:
   m_ObjectHideFlags: 0
