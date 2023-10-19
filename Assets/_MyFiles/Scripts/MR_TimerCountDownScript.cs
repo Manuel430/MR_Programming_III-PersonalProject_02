@@ -11,9 +11,11 @@ public class MR_TimerCountDownScript : MonoBehaviour
     [SerializeField] float maxTime;
     [SerializeField] float remainingTime;
     [SerializeField] bool beginCountdown;
-    [SerializeField] bool hunterActive;
+    [SerializeField] int hunterActive = 1;
+    [SerializeField] int locChoice = 1;
 
     [SerializeField] MR_HunterSpawnScript hunterSpawn;
+    [SerializeField] GameObject[] spawnerLoc;
 
     private void Update()
     {
@@ -22,7 +24,7 @@ public class MR_TimerCountDownScript : MonoBehaviour
 
         if (beginCountdown)
         {
-            if (remainingTime > 1 && hunterActive == false)
+            if (remainingTime > 1 && hunterActive == 1)
             {
                 remainingTime -= Time.deltaTime;
                 timerText.color = Color.white;
@@ -31,23 +33,34 @@ public class MR_TimerCountDownScript : MonoBehaviour
             {
                 remainingTime = 0;
                 timerText.color = Color.red;
-                if (hunterActive == true)
+                if (hunterActive == 1)
                 {
                     Debug.LogWarning("The Hunter is on the Hunt.");
+                    if(locChoice == 1)
+                    {
+                        LocationList();
+                        locChoice = 0;
+                    }
                     hunterSpawn.HunterSpawn();
-                    hunterActive = false;
+                    hunterActive = 0;
                 }
             }
         }
         else
         {
-            if(hunterActive == false)
+            if(hunterActive == 1)
             {
                 remainingTime = maxTime;
             }
         }
 
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    private void LocationList()
+    {
+        int randomIndex = Random.Range(0, spawnerLoc.Length);
+        Debug.Log($"Hunter has spawned at location {randomIndex}");
     }
 
     public void BoolSwitch(bool CountDown)

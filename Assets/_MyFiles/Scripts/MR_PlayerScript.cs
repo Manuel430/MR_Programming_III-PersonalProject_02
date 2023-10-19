@@ -9,6 +9,10 @@ public class MR_PlayerScript : MonoBehaviour
     PlayerControlsScript playerControls;
     CharacterController characterController;
 
+    [Header("Player Health")]
+    public int health;
+    public int maxHealth = 100;
+
     [Header("Player Speed")]
     public float speed = 0f;
     public float walkSpeed = 10f;
@@ -36,6 +40,8 @@ public class MR_PlayerScript : MonoBehaviour
         playerControls.Player.Enable();
         characterController = GetComponent<CharacterController>();
         speed = walkSpeed;
+
+        health = maxHealth;
 
         playerControls.Player.Jump.performed += Jump;
         playerControls.Player.Sprint.performed += SprintPace;
@@ -132,6 +138,16 @@ public class MR_PlayerScript : MonoBehaviour
         if(characterController.height != heightChange)
         {
             characterController.height = Mathf.Lerp(characterController.height, heightChange, crouchSpeed);
+        }
+    }
+
+    public void HealthChange(int change)
+    {
+        health += change;
+
+        if(health == 0)
+        {
+            Debug.Log("Player has died. Game Over.");
         }
     }
 
