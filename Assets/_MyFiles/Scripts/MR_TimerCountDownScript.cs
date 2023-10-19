@@ -70,7 +70,14 @@ public class MR_TimerCountDownScript : MonoBehaviour
 
     public void MaxTimeChange(float maxTimeChange)
     {
-        maxTime -= maxTimeChange;
+        if(maxTime <= 0)
+        {
+            maxTime = 0;
+        }
+        else
+        {
+            maxTime -= maxTimeChange;
+        }
         SetNewTime();
     }
 

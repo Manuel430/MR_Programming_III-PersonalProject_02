@@ -98,6 +98,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 128
+  hunterAnim: {fileID: 0}
   player: {fileID: 3989500264563157943, guid: bb712fe22b606184dbebc1182d9a0fe9, type: 3}
   centrePoint: {fileID: 1130152765447276515}
   range: 15
@@ -142,7 +143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0096d3fae0ca0bc479edef9365d19c64, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0096d3fae0ca0bc479edef9365d19c64, type: 3}
       propertyPath: m_LocalRotation.x
@@ -150,7 +151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0096d3fae0ca0bc479edef9365d19c64, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0096d3fae0ca0bc479edef9365d19c64, type: 3}
       propertyPath: m_LocalRotation.z
@@ -162,12 +163,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0096d3fae0ca0bc479edef9365d19c64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0096d3fae0ca0bc479edef9365d19c64, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 0096d3fae0ca0bc479edef9365d19c64, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d24368ce6fa4316409303131cec5e924, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

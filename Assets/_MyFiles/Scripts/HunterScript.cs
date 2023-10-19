@@ -11,6 +11,8 @@ public class HunterScript : MonoBehaviour
     [SerializeField] LayerMask playerMask;
     [SerializeField] LayerMask obstacleMask;
 
+    [SerializeField] Animator hunterAnim;
+
     Vector3 playerLastPosition = Vector3.zero;
     Vector3 m_PlayerPosition;
     Vector3 point;
