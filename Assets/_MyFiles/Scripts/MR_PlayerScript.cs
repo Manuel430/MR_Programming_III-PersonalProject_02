@@ -34,6 +34,7 @@ public class MR_PlayerScript : MonoBehaviour
     private float xSensitivity = 30f;
     private float ySensitivity = 30f;
 
+    public static MR_PlayerScript Instance { get; private set; }
     private void Awake()
     {
         playerControls = new PlayerControlsScript();

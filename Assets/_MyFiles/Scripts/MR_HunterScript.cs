@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class MR_HunterScript : MonoBehaviour
 {
@@ -33,6 +35,7 @@ public class MR_HunterScript : MonoBehaviour
 
     private void Awake()
     {
+
         _Hunter = GetComponent<NavMeshAgent>();
         _Hunter.isStopped = false;
         _Hunter.speed = patrolSpeed;
@@ -47,22 +50,32 @@ public class MR_HunterScript : MonoBehaviour
 
     private void Update()
     {
-        Patrol();
+        if (playerInRange == false)
+        {
+            Patrol();
+        }
+        else
+        {
+            Chase();
+        }
+    }
 
-        /*        if (onPatrol)
-                {
-                    Patrol();
-                    Debug.Log("Patrolling");
-                }
-                else
-                {
-                    Chase();
-                    Debug.Log("Chasing");
-                }*/
+    public bool PatrolOrChase(bool choice)
+    {
+        playerInRange = choice;
+        return playerInRange;
     }
 
     private void Chase()
     {
+        playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+
+        Move(chaseSpeed);
+        _Hunter.SetDestination(playerPosition);
+
+        /*        playerLastPosition = _Player.position;
+                Debug.Log($"Player's position is: {playerLastPosition}");
+                //_Hunter.SetDestination();*/
     }
 
     private void Patrol()
@@ -90,5 +103,17 @@ public class MR_HunterScript : MonoBehaviour
 
         result = Vector3.zero;
         return false;
+    }
+
+    private void Move(float speed)
+    {
+        _Hunter.isStopped = false;
+        _Hunter.speed = speed;
+    }
+
+    private void Stop()
+    {
+        _Hunter.isStopped = true;
+        _Hunter.speed = 0;
     }
 }
