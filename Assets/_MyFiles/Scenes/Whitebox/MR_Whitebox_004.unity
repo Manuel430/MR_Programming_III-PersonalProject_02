@@ -1807,6 +1807,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 828741433945295423, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
   m_PrefabInstance: {fileID: 949569303}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &308584110 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 823865767781113445, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
+  m_PrefabInstance: {fileID: 949569303}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &318450911 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7814822093752298378, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
@@ -1882,6 +1887,11 @@ MonoBehaviour:
 --- !u!1 &329458354 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6830530065762125549, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
+  m_PrefabInstance: {fileID: 949569303}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &329458356 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7257692524352244843, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
   m_PrefabInstance: {fileID: 949569303}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &345620877
@@ -7384,11 +7394,12 @@ MonoBehaviour:
   hunterActive: 1
   locChoice: 1
   hunterSpawn: {fileID: 649924762}
+  spawnPoint: {fileID: 1721248098}
   spawnerLoc:
-  - {fileID: 1721248097}
-  - {fileID: 2129204242}
-  - {fileID: 308584108}
-  - {fileID: 329458354}
+  - {fileID: 2107085174}
+  - {fileID: 2129204244}
+  - {fileID: 308584110}
+  - {fileID: 329458356}
 --- !u!4 &1554815029
 Transform:
   m_ObjectHideFlags: 0
@@ -7991,6 +8002,11 @@ MonoBehaviour:
 --- !u!1 &1721248097 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8900154722552382348, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
+  m_PrefabInstance: {fileID: 949569303}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1721248098 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1002715175687810429, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
   m_PrefabInstance: {fileID: 949569303}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1727968658 stripped
@@ -9850,6 +9866,11 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!4 &2107085174 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1124717441661239878, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
+  m_PrefabInstance: {fileID: 949569303}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2114325895 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7159147829079274669, guid: d61b7101fd391234fb0d91c24d47b2a2, type: 3}
@@ -9956,6 +9977,11 @@ Transform:
 --- !u!1 &2129204242 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3323341967856441401, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
+  m_PrefabInstance: {fileID: 949569303}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2129204244 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1068892276646307710, guid: 04947d39a0e9a6140bc295af7bee19dd, type: 3}
   m_PrefabInstance: {fileID: 949569303}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

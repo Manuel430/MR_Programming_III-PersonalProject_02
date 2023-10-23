@@ -15,7 +15,8 @@ public class MR_TimerCountDownScript : MonoBehaviour
     [SerializeField] int locChoice = 1;
 
     [SerializeField] MR_HunterSpawnScript hunterSpawn;
-    [SerializeField] GameObject[] spawnerLoc;
+    [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform[] spawnerLoc;
 
     private void Update()
     {
@@ -60,6 +61,8 @@ public class MR_TimerCountDownScript : MonoBehaviour
     private void LocationList()
     {
         int randomIndex = Random.Range(0, spawnerLoc.Length);
+        spawnPoint.position = spawnerLoc[randomIndex].position ;
+
         Debug.Log($"Hunter has spawned at location {randomIndex}");
     }
 

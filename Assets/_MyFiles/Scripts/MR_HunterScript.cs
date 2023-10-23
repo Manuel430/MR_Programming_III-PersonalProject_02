@@ -29,13 +29,24 @@ public class MR_HunterScript : MonoBehaviour
     [SerializeField] bool onPatrol;
     [SerializeField] bool playerCloseUp;
 
+    [Header("Timers")]
+    [SerializeField] float spawnTime;
+    [SerializeField] float maxSpawnTime;
+    [SerializeField] float huntTime;
+    [SerializeField] float maxHuntTime;
+    [SerializeField] float finalSecs;
+
+    [Header("Animation")]
+    [SerializeField] Animator huntAnim;
+
+
     Vector3 playerLastPosition = Vector3.zero;
     Vector3 playerPosition = Vector3.zero;
     Vector3 rayPoint;
 
+
     private void Awake()
     {
-
         _Hunter = GetComponent<NavMeshAgent>();
         _Hunter.isStopped = false;
         _Hunter.speed = patrolSpeed;
@@ -46,18 +57,56 @@ public class MR_HunterScript : MonoBehaviour
         onPatrol = true;
         playerCloseUp = false;
         playerInRange = false;
+
+        spawnTime = maxSpawnTime;
+        huntTime = maxHuntTime;
     }
 
     private void Update()
     {
-        if (playerInRange == false)
+        if (spawnTime > 0)
+        {
+            Stop();
+            spawnTime -= Time.deltaTime;
+            huntTime = maxHuntTime;
+        }
+
+        if (huntTime <= 0)
+        {
+            huntTime = 0;
+            Death();
+        }
+        if (playerCloseUp == true)
+        {
+            Attack();
+            return;
+        }
+        if (playerInRange == false && playerCloseUp == false)
         {
             Patrol();
         }
-        else
+        else if(playerCloseUp == false)
         {
             Chase();
         }
+    }
+
+    private void Death()
+    {
+        finalSecs -= Time.deltaTime;
+        Stop();
+        _Hunter.speed = 0;
+        huntAnim.SetBool("Despawn", true);
+        huntAnim.SetBool("Patrol", false);
+        huntAnim.SetBool("Chasing", false);
+        huntAnim.SetBool("CanAttack", false);
+
+        if (finalSecs <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        return;
     }
 
     public bool PatrolOrChase(bool choice)
@@ -66,21 +115,63 @@ public class MR_HunterScript : MonoBehaviour
         return playerInRange;
     }
 
+    public bool CanAttack(bool choice)
+    {
+        playerCloseUp = choice;
+        return playerCloseUp;
+    }
+
+    private void Attack()
+    {
+        Stop();
+        _Hunter.speed = 0;
+        huntAnim.SetBool("CanAttack", true);
+        return;
+    }
+
     private void Chase()
     {
+        if (spawnTime > 0)
+        {
+            return;
+        }
+        if(huntTime > 0)
+        {
+            huntTime = maxHuntTime;
+        }
+
+        huntAnim.SetBool("CanAttack", false);
+        huntAnim.SetBool("Patrol", false);
+        huntAnim.SetBool("Chasing", true);
+
         playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
 
         Move(chaseSpeed);
         _Hunter.SetDestination(playerPosition);
 
-        /*        playerLastPosition = _Player.position;
-                Debug.Log($"Player's position is: {playerLastPosition}");
-                //_Hunter.SetDestination();*/
     }
 
     private void Patrol()
     {
+        while(huntTime > 0)
+        {
+            huntTime -= Time.deltaTime;
+        }
+        if(huntTime < 0)
+        {
+            _Hunter.speed = 0;
+        }
+        if(spawnTime > 0)
+        {
+            return;
+        }
+
+        huntAnim.SetBool("CanAttack", false);
+        huntAnim.SetBool("Patrol", true);
+        huntAnim.SetBool("Chasing", false);
+
         range = Random.Range(5, 30);
+        Move(patrolSpeed);
         if (_Hunter.remainingDistance <= _Hunter.stoppingDistance)
         {
             if (RandomPoint(centerPoint.position, range, out rayPoint))
@@ -113,6 +204,9 @@ public class MR_HunterScript : MonoBehaviour
 
     private void Stop()
     {
+        huntAnim.SetBool("Patrol", false);
+        huntAnim.SetBool("Chasing", false);
+
         _Hunter.isStopped = true;
         _Hunter.speed = 0;
     }
