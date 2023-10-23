@@ -64,6 +64,14 @@ public class MR_HunterScript : MonoBehaviour
 
     private void Update()
     {
+        huntTime -= Time.deltaTime;
+        if( huntTime <= 0)
+        {
+            _Hunter.speed = 0;
+            huntTime = 0;
+            Death();
+        }
+
         if (spawnTime > 0)
         {
             Stop();
@@ -71,13 +79,9 @@ public class MR_HunterScript : MonoBehaviour
             huntTime = maxHuntTime;
         }
 
-        if (huntTime <= 0)
-        {
-            huntTime = 0;
-            Death();
-        }
         if (playerCloseUp == true)
         {
+            _Hunter.speed = 0;
             Attack();
             return;
         }
@@ -89,12 +93,19 @@ public class MR_HunterScript : MonoBehaviour
         {
             Chase();
         }
+
+        if(playerCloseUp == true)
+        {
+            _Hunter.isStopped = true;
+            _Hunter.speed = 0;
+        }
     }
 
     private void Death()
     {
         finalSecs -= Time.deltaTime;
         Stop();
+        _Hunter.isStopped = true;
         _Hunter.speed = 0;
         huntAnim.SetBool("Despawn", true);
         huntAnim.SetBool("Patrol", false);
@@ -140,6 +151,14 @@ public class MR_HunterScript : MonoBehaviour
             huntTime = maxHuntTime;
         }
 
+        if(huntTime <=0 || playerCloseUp == true)
+        {
+            _Hunter.isStopped = true;
+            _Hunter.speed = 0;
+            return;
+        }
+
+        Debug.Log("chasing");
         huntAnim.SetBool("CanAttack", false);
         huntAnim.SetBool("Patrol", false);
         huntAnim.SetBool("Chasing", true);
@@ -147,23 +166,24 @@ public class MR_HunterScript : MonoBehaviour
         playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
 
         Move(chaseSpeed);
-        _Hunter.SetDestination(playerPosition);
+        if (_Hunter.isActiveAndEnabled)
+        { 
+            _Hunter.SetDestination(playerPosition);
+        }
 
     }
 
     private void Patrol()
     {
-        while(huntTime > 0)
-        {
-            huntTime -= Time.deltaTime;
-        }
-        if(huntTime < 0)
-        {
-            _Hunter.speed = 0;
-        }
         if(spawnTime > 0)
         {
             return;
+        }
+
+        if (huntTime <= 0)
+        {
+            _Hunter.isStopped = true;
+            _Hunter.speed = 0;
         }
 
         huntAnim.SetBool("CanAttack", false);
@@ -198,6 +218,9 @@ public class MR_HunterScript : MonoBehaviour
 
     private void Move(float speed)
     {
+        if(!_Hunter.isActiveAndEnabled)
+            return;
+        
         _Hunter.isStopped = false;
         _Hunter.speed = speed;
     }
@@ -206,8 +229,10 @@ public class MR_HunterScript : MonoBehaviour
     {
         huntAnim.SetBool("Patrol", false);
         huntAnim.SetBool("Chasing", false);
-
-        _Hunter.isStopped = true;
-        _Hunter.speed = 0;
+        if(_Hunter.isActiveAndEnabled)
+        {
+            _Hunter.isStopped = true;
+            _Hunter.speed = 0;
+        }
     }
 }
