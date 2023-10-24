@@ -10,7 +10,8 @@ public class MR_HuntingRadiusScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            hunterRadius.PatrolOrChase(true);
+            hunterRadius.CanChase(true);
+            hunterRadius.CanPatrol(false);
         }
     }
 
@@ -18,7 +19,8 @@ public class MR_HuntingRadiusScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            hunterRadius.PatrolOrChase(false);
+            hunterRadius.CanChase(false);
+            hunterRadius.CanPatrol(true);
         }
     }
 }

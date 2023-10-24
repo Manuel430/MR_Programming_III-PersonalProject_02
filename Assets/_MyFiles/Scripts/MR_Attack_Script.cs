@@ -16,7 +16,7 @@ public class MR_Attack_Script : MonoBehaviour
             MR_PlayerScript playerScript = collider.GetComponent<MR_PlayerScript>();
             if (playerScript != null)
             {
-                playerScript.HealthChange(-5);
+                playerScript.HealthChange(-50);
             }
         }
     }

@@ -15,8 +15,16 @@ public class MR_TimerCountDownScript : MonoBehaviour
     [SerializeField] int locChoice = 1;
 
     [SerializeField] MR_HunterSpawnScript hunterSpawn;
+    [SerializeField] MR_BackgroundAudioScript backgroundAudio;
+
     [SerializeField] Transform spawnPoint;
     [SerializeField] Transform[] spawnerLoc;
+    GameObject hunterLocated;
+
+    private void Awake()
+    {
+        backgroundAudio.NormalBackground();
+    }
 
     private void Update()
     {
@@ -39,11 +47,18 @@ public class MR_TimerCountDownScript : MonoBehaviour
                     Debug.LogWarning("The Hunter is on the Hunt.");
                     if(locChoice == 1)
                     {
+                        backgroundAudio.HunterBackground();
                         LocationList();
                         locChoice = 0;
                     }
                     hunterSpawn.HunterSpawn();
                     hunterActive = 0;
+                    hunterLocated = GameObject.FindGameObjectWithTag("Enemy");
+                }
+
+                if (hunterLocated == null)
+                {
+                    NextTime();
                 }
             }
         }
@@ -87,5 +102,12 @@ public class MR_TimerCountDownScript : MonoBehaviour
     public void SetNewTime()
     {
         remainingTime = maxTime;
+    }
+
+    public void NextTime()
+    {
+        backgroundAudio.NormalBackground();
+        remainingTime = maxTime;
+        hunterActive++;
     }
 }

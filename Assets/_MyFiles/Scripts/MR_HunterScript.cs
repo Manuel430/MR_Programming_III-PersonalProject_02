@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class MR_HunterScript : MonoBehaviour
 {
@@ -39,7 +38,6 @@ public class MR_HunterScript : MonoBehaviour
     [Header("Animation")]
     [SerializeField] Animator huntAnim;
 
-
     Vector3 playerLastPosition = Vector3.zero;
     Vector3 playerPosition = Vector3.zero;
     Vector3 rayPoint;
@@ -64,7 +62,11 @@ public class MR_HunterScript : MonoBehaviour
 
     private void Update()
     {
-        huntTime -= Time.deltaTime;
+        if(onPatrol == true)
+        {
+            huntTime -= Time.deltaTime;
+        }
+
         if( huntTime <= 0)
         {
             _Hunter.speed = 0;
@@ -81,23 +83,20 @@ public class MR_HunterScript : MonoBehaviour
 
         if (playerCloseUp == true)
         {
+            playerInRange = false;
+            onPatrol = false;
             _Hunter.speed = 0;
             Attack();
             return;
         }
-        if (playerInRange == false && playerCloseUp == false)
+
+        if (playerInRange == false && playerCloseUp == false && onPatrol == true)
         {
             Patrol();
         }
-        else if(playerCloseUp == false)
+        else if(playerCloseUp == false && playerInRange == true && onPatrol == false)
         {
             Chase();
-        }
-
-        if(playerCloseUp == true)
-        {
-            _Hunter.isStopped = true;
-            _Hunter.speed = 0;
         }
     }
 
@@ -120,10 +119,16 @@ public class MR_HunterScript : MonoBehaviour
         return;
     }
 
-    public bool PatrolOrChase(bool choice)
+    public bool CanChase(bool choice)
     {
         playerInRange = choice;
         return playerInRange;
+    }
+
+    public bool CanPatrol(bool choice)
+    {
+        onPatrol = choice;
+        return onPatrol;
     }
 
     public bool CanAttack(bool choice)
@@ -136,6 +141,7 @@ public class MR_HunterScript : MonoBehaviour
     {
         Stop();
         _Hunter.speed = 0;
+        huntTime = maxHuntTime;
         huntAnim.SetBool("CanAttack", true);
         return;
     }
@@ -165,7 +171,15 @@ public class MR_HunterScript : MonoBehaviour
 
         playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
 
-        Move(chaseSpeed);
+        if(playerCloseUp == false)
+        {
+            Move(chaseSpeed);
+        }
+        else
+        {
+            Stop();
+        }
+
         if (_Hunter.isActiveAndEnabled)
         { 
             _Hunter.SetDestination(playerPosition);
@@ -235,4 +249,9 @@ public class MR_HunterScript : MonoBehaviour
             _Hunter.speed = 0;
         }
     }
+
+/*    private void OnDestroy()
+    {
+        nextTime.NextTime();
+    }*/
 }

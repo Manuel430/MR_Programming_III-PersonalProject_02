@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,21 +11,33 @@ public class MR_PlayerScript : MonoBehaviour
     CharacterController characterController;
 
     [Header("Player Health")]
-    public int health;
-    public int maxHealth = 100;
+    [SerializeField] int health;
+    [SerializeField] int maxHealth = 100;
 
     [Header("Player Speed")]
-    public float speed = 0f;
-    public float walkSpeed = 10f;
-    public float runSpeed = 20f;
-    public float crouchSpeed = 5f;
+    [SerializeField] float speed = 0f;
+    [SerializeField] float walkSpeed = 10f;
+    [SerializeField] float runSpeed = 20f;
+    [SerializeField] float crouchSpeed = 5f;
     Vector3 playerVelocity;
 
     [Header("Camera")]
-    public Camera playerCAM;
+    [SerializeField] Camera playerCAM;
 
-    public bool isRunning;
-    public bool isCrouching;
+    [Header("Text")]
+    [SerializeField] TextMeshProUGUI healthText;
+
+    [Header("UI")]
+    [SerializeField] GameObject pauseMenuUI;
+    [SerializeField] GameObject gameOverUI;
+
+    [SerializeField] bool isRunning;
+    [SerializeField] bool isCrouching;
+
+    bool gameOver;
+    bool gamePaused;
+    bool gameWon;
+
     private float standingHeight = 2;
     private float crouchingHeight = 0;
 
@@ -37,6 +50,10 @@ public class MR_PlayerScript : MonoBehaviour
     public static MR_PlayerScript Instance { get; private set; }
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        healthText.text = maxHealth.ToString();
         playerControls = new PlayerControlsScript();
         playerControls.Player.Enable();
         characterController = GetComponent<CharacterController>();
@@ -44,21 +61,40 @@ public class MR_PlayerScript : MonoBehaviour
 
         health = maxHealth;
 
+        gamePaused = false;
+        pauseMenuUI.SetActive(false);
+        gameOverUI.SetActive(false);
+
+        playerControls.Player.Pause.performed += PausingGame;
         playerControls.Player.Jump.performed += Jump;
         playerControls.Player.Sprint.performed += SprintPace;
         playerControls.Player.Sprint.canceled += WalkPace;
         playerControls.Player.Crouch.performed += CrouchSize;
         playerControls.Player.Crouch.canceled += NormalSize;
+
+    }
+
+    public void GameWon(bool answer)
+    {
+        gameWon = answer;
     }
 
     private void Update()
     {
+        healthText.text = health.ToString();
+
         ProcessMovement();
         ProcessCrouch();
 
         if(isRunning == false && isCrouching == false)
         {
             speed = walkSpeed;
+        }
+
+        if(health <= 0)
+        {
+            gameOver = true;
+            GameOver();
         }
 
     }
@@ -152,4 +188,36 @@ public class MR_PlayerScript : MonoBehaviour
         }
     }
 
+    private void PausingGame(InputAction.CallbackContext context)
+    {
+        if (gameOver == true || gameWon == true)
+        {
+            return;
+        }
+
+        if (gamePaused == false)
+        {
+            gamePaused = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Time.timeScale = 0;
+            pauseMenuUI.SetActive(true);
+        }
+        else
+        {
+            gamePaused = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Time.timeScale = 1;
+            pauseMenuUI.SetActive(false);
+        }
+    }
+
+    private void GameOver()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        gameOverUI.SetActive(true);
+        Time.timeScale = 0;
+    }
 }
